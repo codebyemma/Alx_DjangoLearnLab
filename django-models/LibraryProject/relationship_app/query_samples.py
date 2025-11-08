@@ -27,7 +27,7 @@ for book in books_in_library:
 
 
 # Using OneToOneField reverse relation
-library = Library.objects.get(name=library_name)
+library = Librarian.objects.get(library=library)
 
 librarian = library.Librarian  # automatically available because of OneToOneField
 print(librarian.name)
