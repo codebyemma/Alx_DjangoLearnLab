@@ -16,7 +16,7 @@ for book in books_by_author:
 
 
 # Get the library first
-library = Library.objects.get(name="library_name")  # replace with library name or ID
+library = Library.objects.get(name=library_name)  # replace with library name or ID
 
 # Get all books in that library
 books_in_library = library.books.all()
@@ -27,7 +27,7 @@ for book in books_in_library:
 
 
 # Using OneToOneField reverse relation
-library = Library.objects.get(name="library_name")
+library = Library.objects.get(name=library_name)
 
 librarian = library.Librarian  # automatically available because of OneToOneField
 print(librarian.name)
