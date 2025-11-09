@@ -127,3 +127,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Redirect after login/logout
+LOGIN_REDIRECT_URL = 'list_books'  # or any view name you prefer
+LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'
+
+# Enable messages (usually already enabled)
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
