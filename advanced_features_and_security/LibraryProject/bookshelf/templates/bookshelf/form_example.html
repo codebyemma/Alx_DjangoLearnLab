@@ -1,0 +1,18 @@
+{# templates/bookshelf/form_example.html #}
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example Form</title>
+</head>
+<body>
+  <h1>Create / Edit Book</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %} {# CSRF token protects against CSRF attacks #}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
