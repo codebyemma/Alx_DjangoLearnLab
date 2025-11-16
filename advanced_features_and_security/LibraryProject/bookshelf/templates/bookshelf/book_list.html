@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Book List</h1>
+
+<!-- Secure output using Django's autoescape -->
+<ul>
+    {% for book in books %}
+        <li>
+            <strong>{{ book.title }}</strong>
+            — {{ book.author.name }}
+        </li>
+    {% empty %}
+        <li>No books available.</li>
+    {% endfor %}
+</ul>
+
+<!-- If ExampleForm is used on this page -->
+<hr>
+<h2>Send a Message</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}   <!-- Safe and auto-escaped -->
+    <button type="submit">Submit</button>
+</form>
+
+{% if success %}
+    <p style="color: green;">Form submitted successfully!</p>
+{% endif %}
+
+{% endblock %}
