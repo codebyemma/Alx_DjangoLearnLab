@@ -9,9 +9,29 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponseForbidden, HttpResponse
 from django.conf import settings
-
+from .forms import ExampleForm
 from .models import Book
 from .forms import BookForm, BookSearchForm
+
+
+def example_form_view(request):
+    if request.method == "POST":
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Safe handling (prevents SQL injection)
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            message = form.cleaned_data["message"]
+
+            return render(request, "bookshelf/form_example.html", {
+                "form": ExampleForm(),
+                "success": True
+            })
+    else:
+        form = ExampleForm()
+
+    return render(request, "bookshelf/form_example.html", {"form": form})
+
 
 @require_http_methods(["GET", "POST"])
 def book_list(request):
