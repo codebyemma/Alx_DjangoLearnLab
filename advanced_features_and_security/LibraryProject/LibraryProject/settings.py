@@ -26,6 +26,11 @@ SECRET_KEY = 'django-insecure-f**@i9jqbr530#g@$aqy69)9%^1)6dby4+6-2eqg$s#(y3r0$4
 DEBUG = False
 
 ALLOWED_HOSTS = ["yourdomain.com", "www.yourdomain.com", "127.0.0.1", "localhost"]
+SECURE_BROWSER_XSS_FILTER = True      # Helps prevent reflected XSS attacks
+X_FRAME_OPTIONS = 'DENY'              # Prevents clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True    # Prevents MIME sniffing
+CSRF_COOKIE_SECURE = True       # CSRF cookie only sent over HTTPS
+SESSION_COOKIE_SECURE = True    # Session cookie only sent over HTTPS
 
 
 # Application definition
