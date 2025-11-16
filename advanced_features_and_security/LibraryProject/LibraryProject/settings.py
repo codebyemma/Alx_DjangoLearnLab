@@ -32,8 +32,30 @@ SECURE_CONTENT_TYPE_NOSNIFF = True    # Prevents MIME sniffing
 CSRF_COOKIE_SECURE = True       # CSRF cookie only sent over HTTPS
 SESSION_COOKIE_SECURE = True    # Session cookie only sent over HTTPS
 
+SECURE_SSL_REDIRECT = True
 
+# HSTS: tell browsers to only use HTTPS for the site.
+# Only enable once your site correctly serves HTTPS on production and you are ready for this policy.
+SECURE_HSTS_SECONDS = 31536000            # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True     # apply to subdomains
+SECURE_HSTS_PRELOAD = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Protect cookies from client-side script where practical
+SESSION_COOKIE_HTTPONLY = True 
 # Application definition
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# Optional: tighten cookies SameSite policy (None, Lax, or Strict). Lax is a reasonable default.
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+
+# Optional: logging of security warnings
+import logging
+logger = logging.getLogger(__name__)
+logger.warning("Production security settings (HTTPS, HSTS, secure cookies) are enabled.")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
