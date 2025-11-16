@@ -10,6 +10,11 @@ class BookSearchForm(forms.Form):
         # Additional sanitation if needed (strip whitespace)
         return q.strip()
 
+class ExampleForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea)
+
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
