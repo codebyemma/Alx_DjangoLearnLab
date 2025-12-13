@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions
+from rest_framework import generics
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
@@ -15,8 +15,14 @@ class BookListView(generics.ListAPIView):
         """
         queryset = Book.objects.all()
         year = self.request.query_params.get('year')
+        title = self.request.query_params.get('title')
+        author = self.request.query_params.get('author')
         if year:
             queryset = queryset.filter(publication_year=year)
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+        if author:
+            queryset = queryset.filter(author__id=author)
         return queryset
 
 
