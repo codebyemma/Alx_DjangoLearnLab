@@ -12,9 +12,11 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from .models import Post, Comment, Tag
+from .models import Post, Comment
 from django.db.models import Q
-from rest_framework import generics
+from taggit.models import Tag
+
+
 
 
 @login_required
@@ -142,3 +144,18 @@ def search(request):
         'blog/search_results.html',
         {'posts': results, 'query': query}
     )
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/posts_by_tag.html'
+    context_object_name = 'posts'
+    paginate_by = 5  # optional, keep pagination consistent with PostListView
+
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+        return Post.objects.filter(tags__in=[self.tag]).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.tag
+        return context
