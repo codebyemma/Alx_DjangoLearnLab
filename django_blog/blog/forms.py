@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Post, Comment, Tag
+from .models import Post, Comment
+from taggit.models import Tag
+from taggit.forms import TagWidget
 
 
 class UserRegisterForm(UserCreationForm):
@@ -35,6 +37,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': TagWidget(),  # REQUIRED
+        }
 
     def save(self, commit=True):
         post = super().save(commit=False)
