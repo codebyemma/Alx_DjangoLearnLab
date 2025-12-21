@@ -22,25 +22,20 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        return Comment.objects.filter(post_id=self.kwargs['post_pk'])
+        # Filter comments by post
+        return super().get_queryset().filter(
+            post_id=self.kwargs.get('post_pk')
+        )
 
     def perform_create(self, serializer):
-        post = get_object_or_404(Post, pk=self.kwargs['post_pk'])
+        post = get_object_or_404(Post, pk=self.kwargs.get('post_pk'))
         serializer.save(author=self.request.user, post=post)
 
-class FeedView(generics.ListAPIView):
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        following_users = user.following.all()
-        return Post.objects.filter(author__in=following_users).order_by('-created_at')
-    
 class LikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
