@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -155,3 +156,6 @@ SECURE_SSL_REDIRECT = False
 # Secure session/csrf cookies (set True in production with HTTPS)
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
+
+# Port for production web server (reads from environment, defaults to 8000)
+PORT = int(os.environ.get('PORT', 8000))
