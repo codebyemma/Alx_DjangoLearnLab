@@ -142,3 +142,16 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# Production security settings
+# Enable XSS filter in browsers
+SECURE_BROWSER_XSS_FILTER = True
+# Prevent the browser from guessing the content type
+SECURE_CONTENT_TYPE_NOSNIFF = True
+# Clickjacking protection
+X_FRAME_OPTIONS = 'DENY'
+# Redirect all non-HTTPS requests to HTTPS (set True when HTTPS is configured)
+SECURE_SSL_REDIRECT = False
+# Secure session/csrf cookies (set True in production with HTTPS)
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
