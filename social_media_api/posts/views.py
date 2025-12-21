@@ -40,12 +40,9 @@ class LikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
-        like, created = Like.objects.get_or_create(
-            user=request.user,
-            post=post
-        )
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
             return Response({'detail': 'Post already liked'}, status=400)
@@ -67,6 +64,21 @@ class UnlikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         Like.objects.filter(user=request.user, post=post).delete()
         return Response({'detail': 'Post unliked'})
+
+
+class FeedView(APIView):
+    """Return posts from users the current user is following."""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Get the users the current user is following
+        following_users = request.user.following.all()
+
+        # Fetch posts authored by those users, ordered by newest first
+        posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
+
+        serializer = PostSerializer(posts, many=True)
+        return Response(serializer.data)
